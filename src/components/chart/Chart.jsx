@@ -44,32 +44,6 @@ export function MyChart() {
     ],
   });
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   fetch(
-    //     "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR"
-    //   )
-    //     .then((res) => res.json())
-    //     .then((res) => {
-    //       // const r = Math.random() * 2;
-    //       const val = res.USD;
-    //       console.log(val);
-    //       console.log(res);
-    //       const time = new Date().getSeconds();
-    //       const newSate = {
-    //         labels: [...data.labels.slice(1), time],
-    //         datasets: [
-    //           {
-    //             ...data.datasets[0],
-    //             data: [...data.datasets[0].data.slice(1), val],
-    //           },
-    //         ],
-    //       };
-    //       setData(newSate);
-    //     });
-    // }, 10000);
-  }, [data]);
-
   return (
     <ChartWrapper>
       <Line data={data} />
