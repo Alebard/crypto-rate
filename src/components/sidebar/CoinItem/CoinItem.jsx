@@ -24,6 +24,13 @@ const Item = styled.li`
   & button {
     padding: 5px;
     margin-left: 10px;
+    background-color: #fff;
+    border: 1px solid black;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee8e8;
+    }
   }
 `;
 

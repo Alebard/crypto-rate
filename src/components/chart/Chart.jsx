@@ -12,6 +12,9 @@ import {
 import { Line } from "react-chartjs-2";
 
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { startChart } from "../../store/reducers/chart-reducer";
+import { format } from "date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -29,42 +32,11 @@ const ChartWrapper = styled.div`
 `;
 
 export function MyChart() {
-  const [data, setData] = useState({
-    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-    datasets: [
-      {
-        label: "Bitcoin",
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
-        data: [
-          47290.16, 47290.16, 47290.16, 47290.16, 47290.16, 47290.16, 47290.16,
-          47290.16, 47290.16, 47290.16,
-        ],
-      },
-    ],
-  });
+  const data = useSelector((state) => state.chart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      fetch(
-        "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR"
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          const val = res.USD;
-          const time = new Date().getSeconds();
-          const newSate = {
-            labels: [...data.labels.slice(1), time],
-            datasets: [
-              {
-                ...data.datasets[0],
-                data: [...data.datasets[0].data.slice(1), val],
-              },
-            ],
-          };
-          setData(newSate);
-        });
-    }, 10000);
+    dispatch(startChart());
   }, [data]);
 
   return (
