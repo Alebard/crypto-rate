@@ -1,6 +1,7 @@
 import React from "react";
 import CoinItem from "../CoinItem/CoinItem";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const CoinListWrapper = styled.div`
   margin: 0 auto;
@@ -14,18 +15,14 @@ const CoinListWrapper = styled.div`
 `;
 
 function CoinList() {
+  const coinList = useSelector((state) => state.coin);
+
   return (
     <CoinListWrapper>
       <ul>
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
-        <CoinItem />
+        {coinList.map((name) => (
+          <CoinItem name={name} key={name} />
+        ))}
       </ul>
     </CoinListWrapper>
   );

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import CoinSearch from "./coin-search/CoinSearch";
 import CoinList from "./coin-list/CoinList";
 import styled from "styled-components";
 import { AddCoin } from "./addCoin/AddCoinBtn";
+import AddCoinForm from "./addCoin/AddCoinForm";
 
 const SidebarWrapper = styled.div`
   height: 80%;
@@ -12,11 +13,19 @@ const SidebarWrapper = styled.div`
 `;
 
 function Sidebar() {
+  const [showForm, setShowForm] = useState(false);
+
+  function showFormHandler(e) {
+    e.preventDefault();
+    setShowForm(!showForm);
+  }
+
   return (
     <SidebarWrapper>
       <CoinSearch />
       <CoinList />
-      <AddCoin>Add</AddCoin>
+      <AddCoin onClick={showFormHandler}>Add</AddCoin>
+      {showForm && <AddCoinForm showFormHandler={showFormHandler} />}
     </SidebarWrapper>
   );
 }
