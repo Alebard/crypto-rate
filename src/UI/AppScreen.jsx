@@ -10,8 +10,8 @@ function SimplePaper({ children }) {
       style={{
         display: "flex",
         alignItems: "center",
-        width: "1000px",
-        height: "700px",
+        width: "1200px",
+        height: "600px",
         margin: "50px auto",
         padding: "20px",
       }}

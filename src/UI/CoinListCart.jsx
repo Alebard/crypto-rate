@@ -6,7 +6,7 @@ function CoinListCart({ children }) {
     <Box sx={{ width: "100%" }}>
       <Stack
         style={{
-          height: "500px",
+          height: "400px",
           overflowY: "auto",
           padding: "10px",
           margin: "10px",

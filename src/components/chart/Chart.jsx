@@ -28,8 +28,8 @@ export function MyChart() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(startChart());
+    dispatch(startChart());
   }, [data]);
 
-  return <Line data={data} />;
+  return <div><Line data={data}/></div> ;
 }

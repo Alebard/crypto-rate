@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import CoinSearch from "./coin-search/CoinSearch";
 import CoinList from "./coin-list/CoinList";
-import AddCoinForm from "../AddCoinForm/AddCoinForm";
+import AddCoinForm from "../add-coin-form/AddCoinForm";
 import AddCoinBtn from "../../UI/AddCoinBtn";
 import SidebarCart from "../../UI/SidebarCart";
-import ModalCart from "../../UI/ModalCart";
 
 function Sidebar() {
   const [showForm, setShowForm] = useState(false);

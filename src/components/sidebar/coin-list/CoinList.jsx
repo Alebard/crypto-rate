@@ -1,5 +1,5 @@
 import React from "react";
-import CoinItem from "../CoinItem/CoinItem";
+import CoinItem from "../coin-item/CoinItem";
 import { useSelector } from "react-redux";
 import CoinListCart from "../../../UI/CoinListCart";
 

@@ -19,6 +19,7 @@ function TabsCart({ children }) {
         border: "1px solid #ccd0d7",
         padding: "20px",
         borderRadius: "10px",
+        marginBottom: '40px'
       }}
     >
       {children}
