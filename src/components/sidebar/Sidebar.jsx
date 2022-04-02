@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import CoinSearch from "./coin-search/CoinSearch";
 import CoinList from "./coin-list/CoinList";
-import styled from "styled-components";
-import { AddCoin } from "./addCoin/AddCoinBtn";
-import AddCoinForm from "./addCoin/AddCoinForm";
-
-const SidebarWrapper = styled.div`
-  height: 80%;
-  border-radius: 10px;
-  margin: 0 auto;
-  text-align: center;
-`;
+import AddCoinForm from "../AddCoinForm/AddCoinForm";
+import AddCoinBtn from "../../UI/AddCoinBtn";
+import SidebarCart from "../../UI/SidebarCart";
+import ModalCart from "../../UI/ModalCart";
 
 function Sidebar() {
   const [showForm, setShowForm] = useState(false);
@@ -21,12 +15,12 @@ function Sidebar() {
   }
 
   return (
-    <SidebarWrapper>
+    <SidebarCart>
       <CoinSearch />
       <CoinList />
-      <AddCoin onClick={showFormHandler}>Add</AddCoin>
+      <AddCoinBtn onClick={showFormHandler} />
       {showForm && <AddCoinForm showFormHandler={showFormHandler} />}
-    </SidebarWrapper>
+    </SidebarCart>
   );
 }
 

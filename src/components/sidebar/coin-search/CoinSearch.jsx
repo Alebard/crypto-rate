@@ -1,21 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-
-const Search = styled.div`
-  text-align: center;
-  margin-top: 10px;
-
-  & input {
-    padding: 10px;
-  }
-`;
+import Input from "../../../UI/Input";
 
 function CoinSearch() {
-  return (
-    <Search>
-      <input type="text" placeholder="Search..." />
-    </Search>
-  );
+  return <Input />;
 }
 
 export default CoinSearch;
