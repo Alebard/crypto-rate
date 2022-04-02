@@ -1,6 +1,8 @@
 import { MyChart } from "./components/chart/Chart";
 import Sidebar from "./components/sidebar/Sidebar";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
+
 
 const Wrapper = styled.div`
   width: 1000px;
@@ -14,9 +16,10 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const showChart = useSelector(state => state.showChart)
   return (
     <Wrapper>
-      <MyChart />
+        {showChart && <MyChart />}
       <Sidebar />
     </Wrapper>
   );
