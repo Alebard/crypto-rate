@@ -4,7 +4,7 @@ import { MyChart } from "../components/chart/Chart";
 
 function ColumnLeft({ children }) {
   return (
-    <Grid item xs={8}>
+    <Grid item xs={8} style={{height: '550px'}} >
       {children}
     </Grid>
   );

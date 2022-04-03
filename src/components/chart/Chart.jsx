@@ -27,9 +27,5 @@ export function MyChart() {
   const data = useSelector((state) => state.chart);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(startChart());
-  }, [data]);
-
-  return <div><Line data={data}/></div> ;
+  return <Line data={data} />;
 }
