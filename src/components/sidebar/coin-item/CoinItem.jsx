@@ -16,7 +16,7 @@ function CoinItem({ name }) {
     <ItemCart>
       <img src={btcIcon} alt="btc" />
       <div>{name}</div>
-      <Checkbox />
+      <Checkbox name={name}/>
       <DeleteButton onClick={deleteCoinHandler} />
     </ItemCart>
   );
