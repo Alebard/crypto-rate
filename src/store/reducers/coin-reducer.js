@@ -4,8 +4,8 @@ const DELETE_COIN = "DELETE_COIN";
 export function coinReducer(state = ["BTC"], action) {
   switch (action.type) {
     case ADD_COIN:
-      if (!state.includes(action.coin)) {
-        return [...state, action.coin];
+      if (!state.includes(action.coin.toUpperCase())) {
+        return [...state, action.coin.toUpperCase()];
       }
       return state;
     case DELETE_COIN:

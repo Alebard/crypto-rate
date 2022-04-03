@@ -1,6 +1,8 @@
 import { format } from "date-fns";
+import {getData} from "../../API/getData";
 
 const START_CHART = "START_CHART";
+const SHOW_CHART = "SHOW_CHART";
 
 const initialState = {
   labels: [],
@@ -55,12 +57,26 @@ function chartAction(coinName, coinValue, time) {
 export function startChart() {
   return async function (dispatch) {
     setTimeout(async () => {
-      const response = await fetch(
-        "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR"
-      );
-      const { USD } = await response.json();
+      console.log(await getData())
+      const { USD } = await getData();
       const time = format(new Date(), "HH:mm:ss");
       dispatch(chartAction("BTC", USD, time));
-    }, 10000);
+    }, 20000);
   };
+}
+
+
+export function showChartReducer(state = false, action) {
+  switch (action.type) {
+    case SHOW_CHART:
+      return !state;
+    default:
+      return state;
+  }
+}
+
+export function showChartAcion(){
+  return{
+    type: SHOW_CHART,
+  }
 }

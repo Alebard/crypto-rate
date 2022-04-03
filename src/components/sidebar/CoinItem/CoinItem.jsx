@@ -2,8 +2,10 @@ import React from "react";
 import btcIcon from "../../../assets/btc.png";
 import { CompareIcon, DeleteIcon } from "../../../assets/icons";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { deleteCoin } from "../../../store/reducers/coin-reducer";
+import {showChartAcion, startChart} from "../../../store/reducers/chart-reducer";
+import {currentCoinAction} from "../../../store/reducers/current-coin";
 
 const Item = styled.li`
   border: 1px solid black;
@@ -35,17 +37,33 @@ const Item = styled.li`
 `;
 
 function CoinItem({ name }) {
+
   const dispatch = useDispatch();
+  const currentCoin = useSelector(state => state.currentCoin)
+
   function deleteCoinHandler() {
     dispatch(deleteCoin(name));
+    dispatch(showChartAcion());
+  }
+
+  function changeVisibilityChart(name) {
+    if (currentCoin === name){
+        dispatch(currentCoinAction(''))
+        dispatch(showChartAcion())
+    }else if (currentCoin === ''){
+        dispatch(currentCoinAction(name))
+        dispatch(showChartAcion())
+    }else{
+        dispatch(currentCoinAction(name))
+    }
   }
 
   return (
     <Item>
       <img src={btcIcon} alt="btc" />
       <div>{name}</div>
-      <button>
-        <CompareIcon />
+      <button onClick={() =>changeVisibilityChart(name)}>
+        <CompareIcon  />
       </button>
       <button onClick={deleteCoinHandler}>
         <DeleteIcon />
