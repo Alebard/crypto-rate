@@ -5,21 +5,17 @@ import { deleteCoinAction } from "../../../store/reducers/chart-reducer";
 import Checkbox from "../../../UI/Checkbox";
 import DeleteButton from "../../../UI/DeleteButton";
 import { ItemCart } from "../../../UI/ItemCart";
-import {
-  startChart,
-  stopChartAction,
-} from "../../../store/reducers/chart-reducer";
+import { startChart, stopChart } from "../../../store/reducers/chart-reducer";
 
 function CoinItem({ name }) {
   const [checked, setChecked] = useState(false);
-  const data = useSelector((state) => state.chart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (checked) {
       dispatch(startChart(name));
     }
-  }, [checked, data]);
+  }, [checked]);
 
   function deleteCoinHandler() {
     dispatch(deleteCoinAction(name));
@@ -29,11 +25,16 @@ function CoinItem({ name }) {
     setChecked(!checked);
   }
 
+  function stop() {
+    dispatch(startChart(name))
+  }
+
   return (
     <ItemCart>
       <img src={btcIcon} alt="btc" />
       <div>{name}</div>
       <Checkbox onChange={chartLaunch} checked={checked} />
+      <button onClick={stop}>test</button>
       <DeleteButton onClick={deleteCoinHandler} />
     </ItemCart>
   );

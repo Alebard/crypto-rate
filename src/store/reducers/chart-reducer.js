@@ -8,106 +8,114 @@ const ADD_COIN = "ADD_COIN";
 const DELETE_COIN = "DELETE_COIN";
 
 export const initialState = {
-  labels: [],
-  datasets: [],
+  times: [],
+  coins: [
+    {
+      name: "BTC",
+      prices: [],
+    },
+  ],
 };
 
 export function chartReducer(state = initialState, action) {
   switch (action.type) {
     case START_CHART:
-      let currentCoinIndex;
-
-      const newDatasets = [...state.datasets];
-
-      currentCoinIndex = newDatasets.findIndex(
-        (item) => item.label === action.payload.coinName
+      const currentCoinIndex = state.coins.findIndex(
+        (coin) => coin.name === action.payload.name
       );
 
-      if (state.labels.length < 10) {
-        newDatasets[currentCoinIndex].data = [
-          ...newDatasets[currentCoinIndex].data,
-          action.payload.coinValue,
+      if (state.times.length < 10) {
+        state.coins[currentCoinIndex].prices = [
+          ...state.coins[currentCoinIndex].prices,
+          action.payload.price,
         ];
 
         return {
-          labels: [...state.labels, action.payload.time],
-          datasets: [...newDatasets],
+          times: [...state.times, action.payload.time],
+          coins: [...state.coins],
         };
       }
 
-      newDatasets[currentCoinIndex].data = [
-        ...newDatasets[currentCoinIndex].data.slice(1),
-        action.payload.coinValue,
+      state.coins[currentCoinIndex].prices = [
+        ...state.coins[currentCoinIndex].prices.slice(1),
+        action.payload.price,
       ];
 
       return {
-        labels: [...state.labels.slice(1), action.payload.time],
-        datasets: [...newDatasets],
+        times: [...state.times.slice(1), action.payload.time],
+        coins: [...state.coins],
       };
 
     case STOP_CHART:
       return {
         ...state,
-        datasets: state.datasets.filter(
-          (item) => item.labels !== action.coinName
-        ),
+        // datasets: state.datasets.filter(
+        //   (item) => item.labels !== action.coinName
+        // ),
       };
 
     case ADD_COIN:
-      const val = state.datasets.findIndex(
-        (item) => item.label === action.coin
+      const isValue = state.coins.findIndex(
+        (item) => item.name === action.coin
       );
-      console.log(action);
-      if (val === -1) {
+      if (isValue === -1) {
         const newCoin = {
-          label: action.coin,
-          backgroundColor: "rgb(255, 99, 132)",
-          borderColor: "rgb(255, 99, 132)",
-          data: [],
+          name: action.coin,
+          prices: [],
         };
         return {
           ...state,
-          datasets: [...state.datasets, newCoin],
+          coins: [...state.coins, newCoin],
         };
       }
       return state;
-    // case DELETE_COIN:
-    //   return state.filter((coin) => coin !== action.coin);
+    case DELETE_COIN:
+      const filterCoins = state.coins.filter(
+        (item) => item.name !== action.coin
+      );
+      return {
+        ...state,
+        coins: [...filterCoins],
+      };
 
     default:
       return state;
   }
 }
 
-function startChartAction(coinName, coinValue, time) {
-  return { type: START_CHART, payload: { coinName, coinValue, time } };
-}
-
-export function stopChartAction(coinName) {
-  return { type: STOP_CHART, coinName };
-}
-
 export function startChart(coinName) {
-  return async function (dispatch) {
-    try {
-      const price = await getPrice(coinName);
-      if (!price) throw new Error("ERROR DATA");
-      const time = format(new Date(), "HH:mm:ss");
-      const getCoinDataTimeout = setTimeout(() => {
-        dispatch(startChartAction(coinName, price, time));
-      }, 1000);
-    } catch (err) {
-      console.log(err);
-    }
+  return function (dispatch) {
+    const apiKey =
+      "3d56d21db65af18b84abee5efdc4a22a8170b85c4c0d4b485af65d467802f804";
+    const ccStreamer = new WebSocket(
+      `wss://streamer.cryptocompare.com/v2?api_key=${apiKey}`
+    );
+    ccStreamer.onopen = function onStreamOpen() {
+      const subRequest = {
+        action: "SubAdd",
+        subs: [`2~Coinbase~${coinName}~USD`],
+      };
+      ccStreamer.send(JSON.stringify(subRequest));
+    };
+
+    ccStreamer.onmessage = function onStreamMessage(event) {
+      const message = JSON.parse(event.data);
+
+      if (message.TYPE === "2") {
+        const time = format(new Date(), "HH:mm:ss");
+        dispatch(getPriceAction(message.FROMSYMBOL, message.PRICE, time));
+      }
+    };
+
+    ccStreamer.onclose = function onStreamClose() {
+      console.log("test");
+      const subRequest = {
+        action: "SubRemove",
+        subs: [`2~Coinbase~${coinName}~USD`],
+      };
+      ccStreamer.send(JSON.stringify(subRequest));
+    };
   };
-}
-
-function addCoinAction(coin) {
-  return { type: ADD_COIN, coin };
-}
-
-export function deleteCoinAction(coin) {
-  return { type: DELETE_COIN, coin };
 }
 
 export function addCoin(coinName) {
@@ -122,4 +130,24 @@ export function addCoin(coinName) {
   };
 }
 
-export function stopChart() {}
+// export function stopChart(coinName) {
+//   return function (dispatch) {
+//     dispatch(stopChartAction(coinName));
+//   };
+// }
+
+export function stopChartAction(coinName) {
+  return { type: STOP_CHART, coinName };
+}
+
+function getPriceAction(name, price, time) {
+  return { type: START_CHART, payload: { name, price, time } };
+}
+
+function addCoinAction(coin) {
+  return { type: ADD_COIN, coin };
+}
+
+export function deleteCoinAction(coin) {
+  return { type: DELETE_COIN, coin };
+}

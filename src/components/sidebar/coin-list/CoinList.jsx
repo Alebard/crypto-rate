@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import CoinListCart from "../../../UI/CoinListCart";
 
 function CoinList() {
-  const coinData = useSelector((state) => state.chart.datasets);
+  const coinList = useSelector((state) => state.chart.coins);
 
   return (
     <CoinListCart>
-      {coinData.map((item) => (
-        <CoinItem name={item.label} key={item.label} />
+      {coinList.map((item) => (
+        <CoinItem name={item.name} key={item.name} />
       ))}
     </CoinListCart>
   );

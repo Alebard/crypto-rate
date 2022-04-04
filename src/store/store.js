@@ -6,3 +6,5 @@ import { chartReducer } from "./reducers/chart-reducer";
 const reducers = combineReducers({ chart: chartReducer });
 
 export const store = createStore(reducers, applyMiddleware(thunk));
+
+window.store = store;
