@@ -29,7 +29,6 @@ export function MyChart() {
     datasets: [],
   });
   const data = useSelector((state) => state.chart);
-
   useEffect(() => {
     const coinPrice = data.coins.map((item) => {
       return {
@@ -47,6 +46,7 @@ export function MyChart() {
 
     setChartData(coinsData);
   }, [data]);
+
 
   return <Line data={chartData} />;
 }
