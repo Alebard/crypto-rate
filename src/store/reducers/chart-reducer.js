@@ -21,46 +21,25 @@ export function chartReducer(state = initialState, action) {
   switch (action.type) {
     case START_CHART:
       const currentCoinIndex = state.coins.findIndex(
-        (coin) => coin.name === action.payload.name
+          (coin) => coin.name === action.payload.name
       );
 
-      const mostCountPrice = () =>{
-        let count = 0
-        state.coins.forEach( (coin)=>{
-        count = (coin.prices.length > count) ? count = coin.prices.length : count;
-        })
-        return count
-      }
-      
-
-      if (state.coins[currentCoinIndex].prices.length < 10) {
+      if (state.times.length < 10) {
         state.coins[currentCoinIndex].prices = [
           ...state.coins[currentCoinIndex].prices,
           action.payload.price,
         ];
 
-
-        if(state.times.length > mostCountPrice() ){
-          console.log('check')
-          console.log(state.times.length % mostCountPrice())
-          return {
-            times: [...state.times, action.payload.time],
-            coins: [...state.coins],
-          };
-        } else{
-          return {
-            times: [...state.times, action.payload.time],
-            coins: [...state.coins],
-          };
-        }
-
+        return {
+          times: [...state.times, action.payload.time],
+          coins: [...state.coins],
+        };
       }
 
       state.coins[currentCoinIndex].prices = [
         ...state.coins[currentCoinIndex].prices.slice(1),
         action.payload.price,
       ];
-
 
       return {
         times: [...state.times.slice(1), action.payload.time],
