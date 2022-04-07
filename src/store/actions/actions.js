@@ -17,14 +17,3 @@ export function deleteCoinAction(coin) {
     return {type: DELETE_COIN, coin};
 }
 
-export function addCoin(coinName) {
-    return async function (dispatch) {
-        try {
-            const price = await getPrice(coinName);
-            if (!price) throw new Error("ERROR DATA");
-            dispatch(addCoinAction(coinName));
-        } catch (err) {
-            console.log(err);
-        }
-    };
-}

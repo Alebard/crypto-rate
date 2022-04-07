@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import ModalCart from "../../UI/ModalCart";
 import Input from "../../UI/Input";
 import { Button } from "@mui/material";
-import {addCoin} from "../../store/actions/actions";
+import {addCoin} from "../../thunks/addCoin";
 
 
 const Form = styled.form`
@@ -26,7 +26,7 @@ const Form = styled.form`
   }
 `;
 
-function AddCoinForm({ showFormHandler }) {
+export function AddCoinForm({ showFormHandler }) {
   const [coinName, setCoinName] = useState("");
   const dispatch = useDispatch();
 
@@ -52,4 +52,3 @@ function AddCoinForm({ showFormHandler }) {
   );
 }
 
-export default AddCoinForm;
