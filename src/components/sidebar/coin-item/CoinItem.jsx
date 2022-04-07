@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import btcIcon from "../../../assets/btc.png";
 import { useDispatch } from "react-redux";
-import {deleteCoinAction, stopChartAction} from "../../../store/reducers/chart-reducer";
 import Checkbox from "../../../UI/Checkbox";
 import DeleteButton from "../../../UI/DeleteButton";
 import { ItemCart } from "../../../UI/ItemCart";
-import {ccStreamer, onStreamOpen, startChart} from "../../../API/api";
+import {ccStreamer, onStreamOpen} from "../../../API/api";
+import {deleteCoinAction, stopChartAction} from "../../../store/actions/actions";
 
 
 function CoinItem({ name }) {
@@ -19,7 +19,7 @@ function CoinItem({ name }) {
         if(!ccStreamer.readyState){
             setTimeout(function (){
                 dispatch(stopChartAction(name));
-            },100);
+            },200);
         }else{
             dispatch(stopChartAction(name));
         }
@@ -27,7 +27,7 @@ function CoinItem({ name }) {
   }, [checked]);
 
   function deleteCoinHandler() {
-      if (window.ccStreamer){
+      if (ccStreamer){
           dispatch(stopChartAction(name))
       }
     dispatch(deleteCoinAction(name));

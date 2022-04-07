@@ -1,11 +1,6 @@
 import { format } from "date-fns";
-import {getPrice, onStreamClose} from "../../API/api";
-
-const START_CHART = "START_CHART";
-const STOP_CHART = "STOP_CHART";
-
-const ADD_COIN = "ADD_COIN";
-const DELETE_COIN = "DELETE_COIN";
+import {onStreamClose} from "../../API/api";
+import {ADD_COIN, DELETE_COIN, START_CHART, STOP_CHART} from "../actionsType/actionsType";
 
 export const initialState = {
   times: [],
@@ -88,36 +83,3 @@ export function chartReducer(state = initialState, action) {
 
 
 
-export function addCoin(coinName) {
-  return async function (dispatch) {
-    try {
-      const price = await getPrice(coinName);
-      if (!price) throw new Error("ERROR DATA");
-      dispatch(addCoinAction(coinName));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-}
-
-// export function stopChart(coinName) {
-//   return function (dispatch) {
-//     dispatch(stopChartAction(coinName));
-//   };
-// }
-
-export function stopChartAction(name) {
-  return { type: STOP_CHART, payload: { name } };
-}
-
-export function getPriceAction(name, price, time) {
-  return { type: START_CHART, payload: { name, price, time } };
-}
-
-function addCoinAction(coin) {
-  return { type: ADD_COIN, coin };
-}
-
-export function deleteCoinAction(coin) {
-  return { type: DELETE_COIN, coin };
-}

@@ -1,5 +1,5 @@
 import {format} from "date-fns";
-import {getPriceAction} from "../store/reducers/chart-reducer";
+import {getPriceAction} from "../store/actions/actions";
 
 const apiKey = "3d56d21db65af18b84abee5efdc4a22a8170b85c4c0d4b485af65d467802f804";
 export const ccStreamer = new WebSocket(`wss://streamer.cryptocompare.com/v2?api_key=${apiKey}`);
@@ -8,19 +8,14 @@ export const ccStreamer = new WebSocket(`wss://streamer.cryptocompare.com/v2?api
 
 export function startChart() {
   return function (dispatch) {
-
     ccStreamer.onmessage = function onStreamMessage(event) {
       const message = JSON.parse(event.data);
-
       if (!message.PRICE) return
-
       if (message.TYPE === "2") {
         const time = format(new Date(), "HH:mm:ss");
         dispatch(getPriceAction(message.FROMSYMBOL, message.PRICE, time));
       }
-
     };
-
   };
 }
 

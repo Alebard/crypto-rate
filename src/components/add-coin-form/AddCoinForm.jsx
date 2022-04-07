@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-// import { addCoin } from "../../store/reducers/coin-reducer";
 import ModalCart from "../../UI/ModalCart";
 import Input from "../../UI/Input";
 import { Button } from "@mui/material";
-import { addCoin } from "../../store/reducers/chart-reducer";
+import {addCoin} from "../../store/actions/actions";
+
 
 const Form = styled.form`
   padding: 20px;
