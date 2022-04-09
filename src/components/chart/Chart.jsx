@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
-import { startChart } from "../../store/reducers/chart-reducer";
+import {startChart} from "../../API/api";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +30,11 @@ export function MyChart() {
   });
   const data = useSelector((state) => state.chart);
 
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(startChart());
+  },[])
+
   useEffect(() => {
     const coinPrice = data.coins.map((item) => {
       return {
@@ -47,6 +52,7 @@ export function MyChart() {
 
     setChartData(coinsData);
   }, [data]);
+
 
   return <Line data={chartData} />;
 }

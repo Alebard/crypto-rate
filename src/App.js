@@ -6,6 +6,8 @@ import ColumnRight from "./UI/ColumnRight";
 import CoinTabs from "./components/chart/CoinTabs";
 
 function App() {
+
+
   return (
     <AppScreen>
       <ColumnLeft>
